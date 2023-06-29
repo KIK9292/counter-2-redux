@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.css';
 import {MenuCounter} from "./components/MenuCounter/MenuCounter";
 import {MenuCounterSettings} from "./components/MenuCounterSettings/MenuCounterSettings";
@@ -11,6 +11,7 @@ function App() {
   const callbackShow=()=>{
     setShow(!show)
   }
+
   return (
     <div className="App">
         {show?

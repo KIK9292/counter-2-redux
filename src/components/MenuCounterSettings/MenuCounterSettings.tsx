@@ -3,7 +3,14 @@ import {Button} from "../Button/Button";
 import {InputNumber} from "../InputNubmer/InputNumber";
 import {useDispatch, useSelector} from "react-redux";
 import {RootReducerType} from "../reduce/Store";
-import {addNewValueMaxAC, addNewValueMinAC, newCounterValueAC, StateType} from "../reduce/counterReducer";
+import "./../../App.css"
+import {
+    addLocalStorageAC, addLocalStorageCounterAC,
+    addNewValueMaxAC,
+    addNewValueMinAC,
+    newCounterValueAC,
+    StateType
+} from "../reduce/counterReducer";
 
 
 export type MenuCounterSettingsPropsType={
@@ -28,15 +35,16 @@ export const MenuCounterSettings = (props:MenuCounterSettingsPropsType) => {
         callbackShow()
         if (counter.counterMin>counter.counter){
             dispatch(newCounterValueAC())
+            dispatch(addLocalStorageCounterAC())
         }
-
+dispatch(addLocalStorageAC())
     }
     return (
-        <div>
-            <span>MIN</span>
-            <InputNumber callback={callbackValueMin} startValue={counter.counterMin}/>
-            <span>MAX</span>
-            <InputNumber callback={callbackValueMax} startValue={counter.counterMax}/>
+        <div className={"settingsMenuWrapper"}>
+            <div className={"settingsMenuInput"}><span>MIN</span>
+                <InputNumber callback={callbackValueMin} startValue={counter.counterMin} classValue={counter.counterMax < counter.counterMin || counter.counterMin < 0 ? "error_counter" : "default_counter"}/>
+                <span>MAX</span>
+                <InputNumber callback={callbackValueMax} startValue={counter.counterMax} classValue={counter.counterMax < counter.counterMin  || counter.counterMax < 0 ? "error_counter" : "default_counter"}/></div>
             <Button callback={callbackMenuButtonSettings} title={"SET"} statusDisable={disableButton}/>
         </div>
     );

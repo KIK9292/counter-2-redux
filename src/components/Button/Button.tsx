@@ -1,4 +1,6 @@
 import React from 'react';
+import "./../../App.css"
+
 type ButtonTypeProps={
     callback:()=>void
     title:string
@@ -15,7 +17,7 @@ export const Button = (props:ButtonTypeProps) => {
         callback()
     }
     return (
-        <button onClick={onClickHandler} disabled={statusDisable}>{title}</button>
+        <button onClick={onClickHandler} disabled={statusDisable} className={statusDisable?"disabledButtonStyle":""}>{title}</button>
     );
 };
 

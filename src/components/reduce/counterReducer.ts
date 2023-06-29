@@ -8,9 +8,9 @@ export type StateType={
 }
 
 const stateCounter={
-    counter:0,
-    counterMin:0,
-    counterMax:5,
+    counter:Number(localStorage.getItem('ValueCounter')) || Number(localStorage.getItem('ValueCounterMin'))||0,
+    counterMin:Number(localStorage.getItem('ValueCounterMin')) || 0,
+    counterMax:Number(localStorage.getItem('ValueCounterMax')) || 5,
 }
 
 
@@ -25,7 +25,7 @@ export const counterReducer=(state:StateType=stateCounter,action:ROOTType):State
             return {...state,counter:newValueCounter}
         }
         case "RESET-COUNTER":{
-            return {...state,counter:0}
+            return {...state,counter:state.counterMin}
         }
         case "ADD-NEW-VALUE-MIN":{
             return {...state,counterMin:action.payload.newValueMin}
@@ -36,6 +36,16 @@ export const counterReducer=(state:StateType=stateCounter,action:ROOTType):State
         case "NEW-COUNTER-VALUE":{
             return {...state,counter:state.counterMin}
         }
+        case "ADD-LOCAL_STORAGE":{
+            localStorage.setItem("ValueCounterMin", JSON.stringify(state.counterMin));
+            localStorage.setItem("ValueCounterMax", JSON.stringify(state.counterMax));
+            return state
+        }
+        case "ADD-LOCAL_STORAGE-COUNTER":{
+            localStorage.setItem("ValueCounter", JSON.stringify(state.counter));
+            return state
+        }
+
 
         default:return state
 
@@ -43,7 +53,7 @@ export const counterReducer=(state:StateType=stateCounter,action:ROOTType):State
 }
 
 
-export type ROOTType=AddValueCounterACType|ResetCounterAC|AddNewValueMinACType|AddNewValueMaxACType|NewCounterValueACType
+export type ROOTType=AddValueCounterACType|ResetCounterAC|AddNewValueMinACType|AddNewValueMaxACType|NewCounterValueACType|AddLocalStorageACType|AddLocalStorageCounterACType
 export type AddValueCounterACType=ReturnType<typeof addValueCounterAC>
 export const addValueCounterAC=()=>{
     return{
@@ -78,3 +88,22 @@ export const newCounterValueAC=()=>{
         type:"NEW-COUNTER-VALUE",
     }as const
 }
+export type AddLocalStorageACType=ReturnType<typeof addLocalStorageAC>
+export const addLocalStorageAC=()=>{
+    return{
+        type:"ADD-LOCAL_STORAGE"
+    }as const
+}
+export type AddLocalStorageCounterACType=ReturnType<typeof addLocalStorageCounterAC>
+export const addLocalStorageCounterAC=()=>{
+    return{
+        type:"ADD-LOCAL_STORAGE-COUNTER"
+    }as const
+}
+// export type GetLocalStorageACType=ReturnType<typeof getLocalStorageAC>
+// export const getLocalStorageAC=(min:number,max:number,value:number)=>{
+//     return{
+//         type:"GET-LOCAL-STORAGE",
+//         payload:{min,max,value}
+//     }
+// }
