@@ -21,6 +21,7 @@ export const MenuCounter = (props: MenuCounterPropsType) => {
     }
     const resetCallback = () => {
         dispatch(resetCounterAC())
+        dispatch(addLocalStorageCounterAC())
     }
 
     const callbackMenuButtonSettings = () => {
